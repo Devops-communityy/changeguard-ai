@@ -22,10 +22,11 @@ We teach the way we work. ChangeGuard is built the way a real AI-powered ops pla
 
 | Day | Date | Time (IST) |
 |---|---|---|
-| TBD | TBD | TBD |
-| TBD | TBD | TBD |
+| Saturday | 3 October 2026 | 10:00 AM – 1:00 PM |
+| Sunday | 4 October 2026 | 10:00 AM – 1:00 PM |
 
-Dates for this cohort haven't been set yet  share them and I'll drop them straight into this table.
+- 2 live sessions, 3 hours each, over one weekend.
+- Live sessions only  not pre-recorded.
 
 ## Why This Project Is Important
 
