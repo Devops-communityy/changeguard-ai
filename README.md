@@ -4,7 +4,7 @@
 *Production-grade DevOps + GitOps + Kubernetes + Observability + RAG + MCP + AI*
 
 ---
-
+ 
 ## Who We Are
 
 Quantum Vector is part of TheDevOpsCommunity  a DevOps and AI education platform built by people who work in DevOps, SRE, and AI engineering roles, not just people who teach them.
