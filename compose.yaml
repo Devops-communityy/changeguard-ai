@@ -1,0 +1,35 @@
+services:
+  ui:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      CHANGEGUARD_DEMO_MODE: "true"
+      CHANGEGUARD_PROMETHEUS_URL: http://prometheus:9090
+    volumes:
+      - changeguard-data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  api:
+    build: .
+    command: ["uvicorn", "changeguard.api:app", "--host", "0.0.0.0", "--port", "8080"]
+    ports:
+      - "8080:8080"
+    environment:
+      CHANGEGUARD_DEMO_MODE: "true"
+    volumes:
+      - changeguard-data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  changeguard-data:

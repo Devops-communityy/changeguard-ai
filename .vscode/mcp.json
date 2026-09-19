@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "changeguard": {
+      "type": "stdio",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["-m", "changeguard.mcp_server"]
+    }
+  }
+}

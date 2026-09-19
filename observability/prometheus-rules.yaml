@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: vehicle-platform-changeguard
+  namespace: monitoring
+spec:
+  groups:
+    - name: changeguard.vehicle-platform
+      rules:
+        - alert: TelemetryProcessingLatencySLOBurn
+          expr: histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{service="telemetry-processing"}[5m]))) > 1
+          for: 5m
+          labels: {severity: critical, service: telemetry-processing}
+          annotations:
+            summary: Telemetry p95 latency exceeds one second
+            runbook_url: knowledge/telemetry-consumer-lag-runbook.md
+        - alert: TelemetryKafkaConsumerLag
+          expr: sum(kafka_consumergroup_lag{consumergroup="telemetry-processing"}) > 10000
+          for: 5m
+          labels: {severity: warning, service: telemetry-processing}
+          annotations:
+            summary: Telemetry Kafka consumer lag is increasing
+        - alert: TelemetryPodCPUThrottling
+          expr: sum(rate(container_cpu_cfs_throttled_periods_total{pod=~"telemetry-processing.*"}[5m])) / clamp_min(sum(rate(container_cpu_cfs_periods_total{pod=~"telemetry-processing.*"}[5m])), 0.001) > 0.25
+          for: 10m
+          labels: {severity: warning, service: telemetry-processing}
+          annotations:
+            summary: Telemetry pods are CPU throttled

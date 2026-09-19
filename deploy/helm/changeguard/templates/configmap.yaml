@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: changeguard-config
+  labels:
+    {{- include "changeguard.labels" . | nindent 4 }}
+data:
+  CHANGEGUARD_ENVIRONMENT: {{ .Values.config.environment | quote }}
+  CHANGEGUARD_DEMO_MODE: {{ .Values.config.demoMode | quote }}
+  CHANGEGUARD_PROMETHEUS_URL: {{ .Values.config.prometheusUrl | quote }}
+  CHANGEGUARD_ARGOCD_URL: {{ .Values.config.argocdUrl | quote }}
+  CHANGEGUARD_KUBERNETES_NAMESPACE: {{ .Values.config.kubernetesNamespace | quote }}

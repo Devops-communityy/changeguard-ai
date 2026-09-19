@@ -1,0 +1,33 @@
+image:
+  repository: ghcr.io/quantum-vector/changeguard-ai
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: changeguard
+
+ui:
+  replicas: 2
+  port: 8501
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+    limits: {cpu: 500m, memory: 768Mi}
+
+api:
+  replicas: 2
+  port: 8080
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+    limits: {cpu: 1000m, memory: 1Gi}
+
+config:
+  environment: production
+  demoMode: "false"
+  prometheusUrl: http://prometheus-operated.monitoring.svc:9090
+  argocdUrl: https://argocd-server.argocd.svc
+  kubernetesNamespace: vehicle-platform
+
+secretName: changeguard-secrets
+networkPolicy:
+  enabled: true

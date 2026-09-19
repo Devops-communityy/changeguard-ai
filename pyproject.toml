@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "changeguard-ai"
+version = "0.1.0"
+description = "AI-powered production change intelligence and controlled remediation"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "chromadb>=0.5.23,<1.1",
+  "fastapi>=0.115,<1",
+  "httpx>=0.27,<1",
+  "kubernetes>=31,<34",
+  "langchain>=0.3.14,<0.4",
+  "langchain-chroma>=0.2,<0.3",
+  "langchain-openai>=0.3,<0.4",
+  "mcp>=1.2,<2",
+  "prometheus-client>=0.21,<1",
+  "pydantic>=2.10,<3",
+  "pydantic-settings>=2.7,<3",
+  "python-json-logger>=3.2,<4",
+  "streamlit>=1.41,<2",
+  "uvicorn[standard]>=0.34,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.14,<2",
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.25,<1",
+  "pytest-cov>=6,<7",
+  "ruff>=0.9,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/changeguard"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]

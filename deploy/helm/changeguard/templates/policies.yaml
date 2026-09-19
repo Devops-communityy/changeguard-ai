@@ -1,0 +1,40 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: {name: changeguard-api}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels: {app.kubernetes.io/name: changeguard, app.kubernetes.io/component: api}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: {name: changeguard-api}
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: changeguard-api}
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: {type: Utilization, averageUtilization: 70}
+{{- if .Values.networkPolicy.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: changeguard-default-deny}
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/name: changeguard}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - ports: [{protocol: TCP, port: 8080}, {protocol: TCP, port: 8501}]
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports: [{protocol: TCP, port: 443}, {protocol: TCP, port: 9090}]
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+{{- end }}

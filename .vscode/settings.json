@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^textutil -convert txt -stdout ChangeGuard_Autonomous_Vehicle_DevOps_Project\\.docx \\| awk 'NR<=80 \\{print\\}'$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
